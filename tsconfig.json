@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "commonjs",
+        "declaration": false,
+        "sourceMap": true,
+        "rootDir": "./",
+        "outDir": "./",
+        "pretty": true,
+        "stripInternal": true,
+        "noEmitOnError": true,
+        "noImplicitAny": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": false,
+        "forceConsistentCasingInFileNames": true
+    },
+    "filesGlob": [
+        "**/!(*.d).ts",
+        "!node_modules/**/*.d.ts",
+        "!node_modules/**/*.ts",
+        "typings/index.d.ts"
+    ],
+    "files": [
+        "typings/index.d.ts",
+        "app.ts",
+        "routes/connectors.ts",
+        "routes/push.ts",
+        "routes/routes.ts"
+    ]
+}

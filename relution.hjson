@@ -1,0 +1,18 @@
+{
+  //app name
+  name: sampleAuth
+  //description for the project
+  description: Auto Generated Description for sampleAuth.
+  //on which baseAlias the app is available
+  baseAlias: /sampleAuth
+  //uuid identifier
+  uuid: 390ca900-4f39-11e6-8a1d-f1b414490168
+  //static files
+  client: ./www
+  //node start script
+  server: ./app.js
+  //shows directoryIndex on the Server good for debugging
+  //directoryIndex: true
+  //@todo have to be defined
+  private: false
+}
