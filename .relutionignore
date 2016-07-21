@@ -3,3 +3,7 @@ client/**/*.*
 typings
 **/*.ts
 .DS_STORE
+.git
+
+client/node_modules
+!client/www
