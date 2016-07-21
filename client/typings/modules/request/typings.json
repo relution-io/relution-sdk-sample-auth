@@ -1,0 +1,22 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/louy/typed-request/e988b564dc3f4e1d633fad3d72aadd7f2326879a/typings.json",
+    "raw": "registry:npm/request#2.69.0+20160304121250",
+    "main": "index.d.ts",
+    "global": false,
+    "dependencies": {
+      "form-data": {
+        "src": "https://raw.githubusercontent.com/typed-typings/npm-form-data/edc32200ec6065d98bfaa7ff9cfd104e17c5d3e4/typings.json",
+        "raw": "github:typed-typings/npm-form-data#edc32200ec6065d98bfaa7ff9cfd104e17c5d3e4",
+        "main": "lib/form_data.d.ts",
+        "browser": "lib/browser.d.ts",
+        "global": false,
+        "name": "form-data",
+        "type": "typings"
+      }
+    },
+    "name": "request",
+    "type": "typings"
+  }
+}

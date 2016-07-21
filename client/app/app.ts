@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
-
+import * as Relution from 'relution-sdk';
 
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>'
@@ -13,6 +13,13 @@ export class MyApp {
 
   constructor(private platform: Platform) {
     this.rootPage = TabsPage;
+    Relution.init({
+      serverUrl: 'http://pbrewing.mwaysolutions.com:8080',
+      application: 'sampleAuth'
+    })
+    .then((info) => {
+      console.log('Relution is ready');
+    });
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.

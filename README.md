@@ -78,7 +78,107 @@ Ionic server commands, enter:
 ionic $ 
 ````
 
-und Ihnen den Standardbrowsers Ihres Betriebssystems öffnen mit der ionic starter Tabs app.
+und Ihnen den Standardbrowsers Ihres Betriebssystems öffnen mit der ionic starter Tabs app. Jetzt können Sie die App wieder auf Ihren Relution Server veröffentlichen und diese sollte unter folgender Url 
+
+```html
+https://{YOUR_SERVER}/{YOUR_USER_ORGANIZATION}/{YOUR_APP_NAME}
+```
+erreichbar sein.
+
+### 3. Relution SDK installieren / initialisieren
+
+Installieren Sie nun das Relution SDK über npm mit folgenden Befehl
+
+```bash 
+> relution-sample-auth/client: npm i -S https://github.com/relution-io/relution-sdk
+```
+
+Öffnen Sie nun in Ihrem Code Editor die Datei ``` client/app/app.ts ````
+
+Die folgender maßen aussehen sollte:
+```javascript
+import {Component} from '@angular/core';
+import {Platform, ionicBootstrap} from 'ionic-angular';
+import {StatusBar} from 'ionic-native';
+import {TabsPage} from './pages/tabs/tabs';
+
+
+@Component({
+  template: '<ion-nav [root]="rootPage"></ion-nav>'
+})
+export class MyApp {
+
+  private rootPage: any;
+
+  constructor(private platform: Platform) {
+    this.rootPage = TabsPage;
+
+    platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      StatusBar.styleDefault();
+    });
+  }
+}
+
+ionicBootstrap(MyApp);
+```
+
+Nun müssen wir erst einmal Relution initialisieren, hierzu mmüssen wir das SDK packtet ersteinmal importieren.
+
+```javascript
+import * as Relution from 'relution-sdk';
+```
+
+Fügen Sie in Ihrem constructor der Class MyApp das Relution init hinzu.
+```javascript
+Relution.init({
+  serverUrl: '{{YOUR_SERVER_URL}}',
+  application: '{{YOUR_APPLICATION_NAME}}'
+})
+.then((info) => {
+  console.log('Relution is ready');
+});
+```
+Die Server Url ist die von Ihrem Relution Server ohn Organisation und ohne Applikation Namen. Ihren App namem finden Sie in der relution.hjson in Ihrem Root verzeichnis.
+Die app.ts sollte nun folgender masen aussehen: 
+```javascript
+import {Component} from '@angular/core';
+import {Platform, ionicBootstrap} from 'ionic-angular';
+import {StatusBar} from 'ionic-native';
+import {TabsPage} from './pages/tabs/tabs';
+import * as Relution from 'relution-sdk';
+
+@Component({
+  template: '<ion-nav [root]="rootPage"></ion-nav>'
+})
+export class MyApp {
+
+  private rootPage: any;
+
+  constructor(private platform: Platform) {
+    this.rootPage = TabsPage;
+    Relution.init({
+      serverUrl: 'http://pbrewing.mwaysolutions.com:8080',
+      application: 'sampleAuth'
+    })
+    .then((info) => {
+      console.log('Relution is ready');
+    });
+
+    platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      StatusBar.styleDefault();
+    });
+  }
+}
+
+ionicBootstrap(MyApp);
+```
+In Ihrer Browser Console sollte ein log mit
+```Relution is ready```
+erscheinen auserdem eine Device Information wo Sie Inhalt über Ihr aktuelles Device was in dem fall der Browser ist.
 
 
 
