@@ -180,5 +180,185 @@ In Ihrer Browser Console sollte ein log mit
 ```Relution is ready```
 erscheinen auserdem eine Device Information wo Sie Inhalt über Ihr aktuelles Device was in dem fall der Browser ist.
 
+### 4. Login
+Für den Login benötigen Sie eine Component dies können Sie mit der ionic-cli generieren:
+```bash
+> relution-sample-auth/client:  ionic g page login
+√ Create app/pages/login/login.html
+√ Create app/pages/login/login.scss
+√ Create app/pages/login/login.ts
+
+Don't forget to add an import for login.scss in app/themes/app.core.scss:
+
+  @import "../pages/login/login.scss";
+```
+Um die LoginSeite als erstes aufrufen zu können importieren Sie die Seite in Ihre app.ts und legen Sie diese als rootPage fest:
+```javascript
+import {Component} from '@angular/core';
+import {Platform, ionicBootstrap} from 'ionic-angular';
+import {StatusBar} from 'ionic-native';
+import {LoginPage} from './pages/login/login';
+import * as Relution from 'relution-sdk';
+
+@Component({
+  template: '<ion-nav [root]="rootPage"></ion-nav>'
+})
+export class MyApp {
+
+  private rootPage: any;
+
+  constructor(private platform: Platform) {
+    this.rootPage = LoginPage;
+    Relution.init({
+      serverUrl: 'http://pbrewing.mwaysolutions.com',
+      application: 'sampleAuth'
+    })
+    .then((info) => {
+      console.log('Relution is ready');
+    });
+
+    platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      StatusBar.styleDefault();
+    });
+  }
+}
+
+ionicBootstrap(MyApp);
+```
+
+Ok öffnen Sie nun die Datei app/pages/login/login.ts
+und erstellen Sie Ihr LoginModel
+```javascript
+import * as Relution from 'relution-sdk';
+class LoginModel implements Relution.security.Credentials {
+  constructor(public userName = '', public password = '') { }
+}
+```
+
+und fügen Sie es Ihrer LoginPage hinzu:
+
+```javascript
+@Component({
+  templateUrl: 'build/pages/login/login.html',
+})
+export class LoginPage {
+  private _model: LoginModel;
+
+  constructor(private nav: NavController) {
+    this._model = new LoginModel();
+  }
+
+  public get model(): LoginModel {
+    return this._model;
+  }
+
+  public set model(v: LoginModel) {
+    this._model = v;
+  }
+}
+```
+jetzt haben wir ein LoginModel mit dem wir uns ein Formular erstellen können. Also öffnen Sie die login.html Datei und fügen Sie folgendes html dem ``` <ion-content> ``` hinzu:
+```html
+<ion-list>
+    <form>
+      <ion-item>
+        <ion-label fixed>Username</ion-label>
+        <ion-input type="text" [(ngModel)]="model.userName" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label fixed>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="model.password" required></ion-input>
+      </ion-item>
+      <button type="submit" fab fab-right on-click="onSubmit()">
+        <ion-icon ios="ios-checkmark-circle-outline" md="md-checkmark-circle-outline"></ion-icon>
+      </button>
+    </form>
+</ion-list>
+```
+Als Ergebnis sollten Sie nun ein Formular sehen das zwei Inputfelder besitzt eins für den Usernamen eins für das Passwort. Nun müssen wie die Daten noch an den Relution Server weiterleiten für dies adden Sie eine onSubmit Methode Ihrer LoginPage hinzu:
+
+```javascript
+onSubmit() {
+    console.log(this.model);
+    Relution.web.login(
+      {
+        userName: this.model.userName,
+        password: this.model.password
+      },
+      {
+        offlineCapable: true
+      }
+    )
+    .then((resp) => {
+      console.log(resp); //server Response
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  }
+```
+Nun können Sie das Formular ausfüllen und an den Relution Server weiterleiten.
+und hier die komplette Loginpage:
+```javascript
+import {Component, Input} from '@angular/core';
+import {NavController} from 'ionic-angular';
+import { NgForm }    from '@angular/common';
+import * as Relution from 'relution-sdk';
+
+class LoginModel implements Relution.security.Credentials {
+  constructor(public userName = '', public password = '') { }
+}
+
+/*
+  Generated class for the LoginPage page.
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+*/
+@Component({
+  templateUrl: 'build/pages/login/login.html',
+})
+export class LoginPage {
+  private _model: LoginModel;
+
+  constructor(private nav: NavController) {
+    this.model = new LoginModel();
+  }
+
+  public get model(): LoginModel {
+    return this._model;
+  }
+
+  public set model(v: LoginModel) {
+    this._model = v;
+  }
+
+  onSubmit() {
+    console.log(this.model);
+    Relution.web.login(
+      {
+        userName: this.model.userName,
+        password: this.model.password
+      },
+      {
+        offlineCapable: true
+      }
+    )
+    .then((resp) => {
+      console.log(resp);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  }
+}
+```
+
+
+
+
+
+
 
 

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
-import {TabsPage} from './pages/tabs/tabs';
+import {LoginPage} from './pages/login/login';
 import * as Relution from 'relution-sdk';
 
 @Component({
@@ -12,9 +12,9 @@ export class MyApp {
   private rootPage: any;
 
   constructor(private platform: Platform) {
-    this.rootPage = TabsPage;
+    this.rootPage = LoginPage;
     Relution.init({
-      serverUrl: 'http://pbrewing.mwaysolutions.com:8080',
+      serverUrl: 'https://pbrewing.mwaysolutions.com',
       application: 'sampleAuth'
     })
     .then((info) => {
