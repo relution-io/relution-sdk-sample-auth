@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-navbar relutiongray>
+    <ion-title>
+      About
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header relutiongreen>
+      User Organization
+    </ion-card-header>
+    <ion-list>
+      <ion-item>
+        Organization Name
+        <span item-right relutiongray>
+          {{organization.name}}
+        </span>
+      </ion-item>
+      <ion-item>
+        Created
+        <span item-right relutiongray>
+          {{organization.createdDate|date:['dd MMMM, yyyy']}}
+        </span>
+      </ion-item>
+      <ion-item>
+        ModifiedDate
+        <span item-right relutiongray>
+          {{organization.modifiedDate|date:['dd MMMM, yyyy']}}
+        </span>
+      </ion-item>
+      <ion-item>
+        Report
+        <span item-right relutiongray>
+          {{organization.reportLocaleString}}
+        </span>
+      </ion-item>
+      <ion-item>
+        Billings
+        <span item-right relutiongray>
+          {{organization?.billingSettings.currency}}
+        </span>
+      </ion-item>
+      <ion-item>
+        Effective Permissions
+        <span item-right relutiongray>
+          {{organization?.effectivePermissions}}
+        </span>
+      </ion-item>
+      <ion-item>
+        License Model
+        <span item-right relutiongray>
+          {{organization?.licenseModelName}}
+        </span>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+</ion-content>

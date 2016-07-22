@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar relutiongray>
+    <ion-title>
+      Contact
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+   <ion-card>
+    <ion-card-header relutiongreen>
+      Roles
+    </ion-card-header>
+    <ion-list>
+      <ion-item *ngFor="let role of authorization.roles">
+        <span relutiongray item-right>{{role}}</span>
+      </ion-item>
+    </ion-list>
+   </ion-card>
+</ion-content>

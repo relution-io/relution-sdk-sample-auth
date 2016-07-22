@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar relutiongray>
+    <ion-title>User</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header *ngIf="user.givenName && user.surname" relutiongreen>
+      {{user?.salutation|uppercase}}. {{user.givenName}} {{user.surname}}
+    </ion-card-header>
+    <ion-list *ngIf="user.name">
+      <ion-item>
+        Username
+        <span item-right relutiongray>
+          {{user.name}}
+        </span>
+      </ion-item>
+      <ion-item>
+        Email
+        <span item-right relutiongray>
+          {{user.email}}
+        </span>
+      </ion-item>
+      <ion-item>
+        Last login
+        <span item-right relutiongray>
+          {{user.lastLoggedTime|date:['dd MMMM, yyyy HH:mm:ss']}}
+        </span>
+      </ion-item>
+      <ion-item>
+        Password Expires
+        <span item-right relutiongray>
+          {{user.passwordExpires|date:['dd MMMM, yyyy HH:mm:ss']}}
+        </span>
+      </ion-item>
+      <ion-item>
+        Locked
+        <span item-right relutiongray>
+          {{user.locked ? 'Yes' : 'No'}}
+        </span>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      Roles
+    </ion-card-header>
+    <ion-list>
+      <ion-item *ngFor="let role of user.rolesObjects">
+        <h3 relutiongreen>{{role.name}}</h3>
+        <p relutiongray>
+          {{role?.type}}, {{role?.groupType}}
+        </p>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

@@ -356,6 +356,125 @@ export class LoginPage {
 ```
 
 
+### 5. Response verarbeiten
+Nach dem erfolgreichen Login hat man mehrere Optionen um an die User daten zu kommen.
+Es gibt User, Organization und Authorization.
+
+####User:
+```javascript
+const user:Relution.security.User = Relution.security.getCurrentUser();
+```
+und gibt Ihnen die Userinformation zurück
+```json
+{
+  "type": "USER",
+  "uuid": "5AB2ED9F-CEB1-42B2-8688-03E144F89608",
+  "version": 11461,
+  "aclEntries": [
+    "2A5E21AF-9175-4605-9916-B8CA89833E1C:rw",
+    "user.anonymous:r"
+  ],
+  "name": "pascal",
+  "salutation": "mr",
+  "givenName": "Pascal",
+  "surname": "Brewing",
+  "organizationUuid": "DB461B98-4143-4509-B662-1417C1793F38",
+  "email": "p.brewing@mwaysolutions.com",
+  "lastLoggedTime": "2016-07-22T09:32:03.747Z",
+  "passwordExpires": "2017-04-14T09:07:41.000Z",
+  "locked": false,
+  "activated": true,
+  "effectivePermissions": "*",
+  "sysRoles": [],
+  "roles": [
+    "5BD9D9F4-A56C-4417-8760-C167941D4389",
+    "2A5E21AF-9175-4605-9916-B8CA89833E1C"
+  ],
+  "readonly": false,
+  "rolesObjects": [
+    {
+      "uuid": "2A5E21AF-9175-4605-9916-B8CA89833E1C",
+      "type": "GROUP",
+      "name": "MWAY",
+      "groupType": "GROUP",
+      "systemPermission": false
+    },
+    {
+      "uuid": "5BD9D9F4-A56C-4417-8760-C167941D4389",
+      "type": "GROUP",
+      "name": "DEVELOPERS",
+      "groupType": "SYSTEM_GROUP",
+      "systemPermission": false
+    }
+  ]
+}
+```
+
+####Organization:
+```javascript
+const orga:Relution.security.Organization = Relution.security.getCurrentOrganization();
+```
+und stellt Ihnen folgende Informationen bereit:
+```json
+{
+  "uuid": "DB461B98-4143-4509-B662-1417C1793F38",
+  "aclEntries": [
+    "2A5E21AF-9175-4605-9916-B8CA89833E1C:rw"
+  ],
+  "name": "mway",
+  "uniqueName": "mway",
+  "billingSettings": {
+    "currency": "EUR"
+  },
+  "passwordPolicy": {
+    "allowSimplePassword": false,
+    "minimumPasswordLength": 8,
+    "minimumNumbersOfLowerCaseLetters": 0,
+    "minimumNumbersOfUpperCaseLetters": 0,
+    "minimumNumbersOfDigits": 0,
+    "requiredNumbersOfSymbols": 0,
+    "maximumPasswordAge": 0
+  },
+  "assetPath": "/organizations/mway",
+  "reportLocaleString": "en_US",
+  "version": 2,
+  "effectivePermissions": "*",
+  "createdDate": "2015-10-27T12:59:30.000Z",
+  "modifiedDate": "2015-10-27T12:59:34.000Z",
+  "propertyMap": {},
+  "createdUser": "052DE9AB-D770-4D37-AA46-9A31F0E0D8D1",
+  "modifiedUser": "052DE9AB-D770-4D37-AA46-9A31F0E0D8D1",
+  "licenseOrganizationUuid": "E54E3DB5-49C0-4E6E-A510-97A1448CE65C",
+  "licenseModelUuid": "30E5CBB0-31EB-11E5-A2CB-0800200C9A66",
+  "licenseModelName": "Enterprise",
+  "licenseSignature": "MC0CFQCVw/ZYwRBdGdv9N2tR5tvAsAMz7QIUNXaLffW/9rBpHuaa1wa3lhPpcgE=",
+  "licenseHandshakeDate": 1469109517000,
+  "defaultRoles": [
+    "2A5E21AF-9175-4605-9916-B8CA89833E1C"
+  ]
+}
+```
+
+####Authorization:
+
+```javascript
+const authorization:Relution.security.Authorization = Relution.security.getCurrentAuthorization();
+```
+und stellt Ihnen folgende Daten zu verfügung:
+```json
+{
+  "name": "5AB2ED9F-CEB1-42B2-8688-03E144F89608",
+  "roles": [
+   "APPLICATION_CREATOR",
+    "APPLICATION_EDITOR",
+    "APPLICATION_USER",
+    ...
+  ]
+}
+```
+
+
+
 
 
 

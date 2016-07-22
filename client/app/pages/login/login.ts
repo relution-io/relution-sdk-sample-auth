@@ -1,10 +1,12 @@
 import {Component, Input} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, Loading, Alert} from 'ionic-angular';
 import { NgForm }    from '@angular/common';
+import {TabsPage} from './../tabs/tabs';
+import {Observable} from 'rxjs/Rx';
 import * as Relution from 'relution-sdk';
 
 class LoginModel implements Relution.security.Credentials {
-  constructor(public userName = '', public password = '') { }
+  constructor(public userName = 'pascal', public password = 'hallo1234') { }
 }
 
 /*
@@ -13,7 +15,7 @@ class LoginModel implements Relution.security.Credentials {
   Ionic pages and navigation.
 */
 @Component({
-  templateUrl: 'build/pages/login/login.html',
+  templateUrl: 'build/pages/login/login.html'
 })
 export class LoginPage {
   private _model: LoginModel;
@@ -31,8 +33,11 @@ export class LoginPage {
   }
 
   onSubmit() {
-    console.log(this.model);
-    Relution.web.login(
+    const loading = Loading.create({
+      content: 'Please wait ...'
+    });
+    this.nav.present(loading);
+    return Relution.web.login(
       {
         userName: this.model.userName,
         password: this.model.password
@@ -42,10 +47,20 @@ export class LoginPage {
       }
     )
     .then((resp) => {
-      console.log(resp);
+
+      this.nav.rootNav.setRoot(TabsPage).then(() => {
+        loading.dismiss();
+      });
     })
-    .catch((e) => {
-      console.error(e);
+    .catch((e: Relution.web.HttpError) => {
+      console.log(JSON.stringify(e, null, 2));
+      loading.dismiss();
+      let alert = Alert.create({
+        title: `${e.name} ${e.statusCode}`,
+        subTitle: e.message,
+        buttons: ['OK']
+      });
+      this.nav.present(alert);
     });
   }
 }
