@@ -2,6 +2,7 @@
 Abhängigkeiten um dieses Tutorial nachzubauen
 - [node >= 4.4](https://nodejs.org/en/)
 - [typescript](http://www.typescriptlang.org/)
+- [ionic-cli](http://ionicframework.com/docs/v2/getting-started/installation/)
 - [relution-cli](https://github.com/relution-io/relution-cli)
 
 
