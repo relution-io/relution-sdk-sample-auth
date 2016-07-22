@@ -6,14 +6,9 @@ import {Observable} from 'rxjs/Rx';
 import * as Relution from 'relution-sdk';
 
 class LoginModel implements Relution.security.Credentials {
-  constructor(public userName = 'pascal', public password = 'hallo1234') { }
+  constructor(public userName = '', public password = '') { }
 }
 
-/*
-  Generated class for the LoginPage page.
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   templateUrl: 'build/pages/login/login.html'
 })
@@ -47,13 +42,11 @@ export class LoginPage {
       }
     )
     .then((resp) => {
-
       this.nav.rootNav.setRoot(TabsPage).then(() => {
         loading.dismiss();
       });
     })
     .catch((e: Relution.web.HttpError) => {
-      console.log(JSON.stringify(e, null, 2));
       loading.dismiss();
       let alert = Alert.create({
         title: `${e.name} ${e.statusCode}`,

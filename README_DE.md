@@ -17,6 +17,10 @@ nun wechseln Sie in den von Ihnen ertellten Ordner un legen Sie ein neues Projek
 
 > Beachten Sie das Sie Ihre Applikation auf Ihren Relution Server veröffentlichen müssen.
 
+Step ist erreichbar unter:
+```bash
+git checkout -f step-1
+```
 ### 2. Client anlegen
 
 Wenn Sie die ionic cli erfolgreich installiert haben können Sie nun Ihre Client App anlegen.
@@ -84,6 +88,11 @@ und Ihnen den Standardbrowsers Ihres Betriebssystems öffnen mit der ionic start
 https://{YOUR_SERVER}/{YOUR_USER_ORGANIZATION}/{YOUR_APP_NAME}
 ```
 erreichbar sein.
+
+Step ist erreichbar unter:
+```bash
+git checkout -f step-2
+```
 
 ### 3. Relution SDK installieren / initialisieren
 
@@ -179,6 +188,11 @@ ionicBootstrap(MyApp);
 In Ihrer Browser Console sollte ein log mit
 ```Relution is ready```
 erscheinen auserdem eine Device Information wo Sie Inhalt über Ihr aktuelles Device was in dem fall der Browser ist.
+
+Step ist erreichbar unter:
+```bash
+git checkout -f step-3
+```
 
 ### 4. Login
 Für den Login benötigen Sie eine Component dies können Sie mit der ionic-cli generieren:
@@ -354,7 +368,10 @@ export class LoginPage {
   }
 }
 ```
-
+Step ist erreichbar unter:
+```bash
+git checkout -f step-4
+```
 
 ### 5. Response verarbeiten
 Nach dem erfolgreichen Login hat man mehrere Optionen um an die User daten zu kommen.
@@ -472,6 +489,75 @@ und stellt Ihnen folgende Daten zu verfügung:
   ]
 }
 ```
+Step ist erreichbar unter:
+```bash
+git checkout -f step-5
+```
+###6. Logout
+
+Um den User wieder auszuloggen ist folgende Methode verfügbar der Rückgabewert dieser Methode ist ein Promise
+```javascript
+Relution.web.logout()
+.then(() => {
+	console.log('iam logged out');
+});
+```
+ein Beispiel in der User Seite:
+```javascript
+import {Component} from '@angular/core';
+import {NavController, Loading, Alert} from 'ionic-angular';
+import * as Relution from 'relution-sdk';
+import {LoginPage} from './../login/login';
+
+@Component({
+  templateUrl: 'build/pages/user/user.html'
+})
+export class UserPage {
+  public user: Relution.security.User;
+
+  constructor(private navCtrl: NavController ) {
+    this.user = Relution.security.getCurrentUser();
+  }
+
+  logout() {
+    const loading = Loading.create({
+      content: 'Please wait ...'
+    });
+    this.navCtrl.present(loading);
+    Relution.web.logout()
+    .then(() => {
+      this.navCtrl.setRoot(LoginPage).then(() => {
+        loading.dismiss();
+      });
+    })
+    .catch((e: Relution.web.HttpError) => {
+      loading.dismiss();
+      let alert = Alert.create({
+        title: `${e.name} ${e.statusCode}`,
+        subTitle: e.message,
+        buttons: ['OK']
+      });
+      this.navCtrl.present(alert);
+    });
+  }
+}
+```
+```html
+<ion-header>
+  <ion-navbar>
+    <ion-title>User</ion-title>
+    <ion-buttons end>
+      <button (click)="logout()">
+        <ion-icon name="log-out" light></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+```
+
+
+
+
 
 
 
