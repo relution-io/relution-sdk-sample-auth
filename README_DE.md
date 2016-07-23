@@ -9,30 +9,31 @@ Abhängigkeiten um dieses Tutorial nachzubauen
 
 
 ### 1. Neues Projekt anlegen
-Erstellen Sie einen leeren Ordner am besten über den Terminal.
+Zuerst erstellen wir einen leeren Ordner, am besten über das Terminal.
 
 ```bash
 >: mkdir relution-sample-auth
 ```
-nun wechseln Sie in den von Ihnen ertellten Ordner un legen Sie ein neues Projekt an. Weitere Information hierzu finden Sie im Develoepr Guide 1.1.
+Nun wechseln wir in den gerade  erstellten Ordner und legen ein neues Projekt an. 
+Weitere Information sind im Developer Guide 1.1. verfügbar.
 
-> Beachten Sie das Sie Ihre Applikation auf Ihren Relution Server veröffentlichen müssen.
+> Es ist zu beachten, dass das Projekt auf einem Relution Server zu veröffentlichen ist.
 
-Step ist erreichbar unter:
+Schritt 1 ist erreichbar unter:
 ```bash
 git checkout -f step-1
 ```
 ### 2. Client anlegen
 
-Wenn Sie die ionic cli erfolgreich installiert haben können Sie nun Ihre Client App anlegen.
+Wenn die 'ionic-cli' erfolgreich installiert ist, kann nun die App angelegt werden.
 
 ```bash
 > relution-sample-auth: ionic start client --v2 --ts
 ```
 
-Nun müssen Sie Ihr Relution Projekt um Konfigurieren da nun nicht mehr Ihr www Ordner sondern der Ordner client/www veröffentlicht werden soll.
+Nun muss das erstellte Relution Projekt angepasst werden, da nun nicht mehr der 'www' Ordner sondern der Ordner 'client/www' veröffentlicht werden soll.
 
-Hierzu tragen Sie als ersten folgendes in die Datei ```.relutionignore``` ein unm diese dateien auszugrenzen:
+Hierzu tragen wir als erstes folgendes in die Datei ```.relutionignore``` ein, um die nachstehenden Dateien für den Bauprozess auszugrenzen:
 ```json
     /client/node_modules
     /client/app
@@ -46,13 +47,13 @@ Hierzu tragen Sie als ersten folgendes in die Datei ```.relutionignore``` ein un
     /client/*.*
     /client/config.xml
 ```
-wechseln Sie nun in den client Ordner und starten Sie testweise das Projekt
+Nun wechseln wir in den 'Client' Ordner und starten testweise das Projekt:
 
 ```bash
 > relution-sample-auth: cd client
 > relution-sample-auth/client: ionic serve
 ```
-Die Ausgabe sollte folgendem entsprechen:
+Die Ausgabe sollte wie folgt aussehen:
 ```bash
 [14:26:23] Starting 'clean'...
 [14:26:23] Finished 'clean' after 10 ms
@@ -83,29 +84,29 @@ Ionic server commands, enter:
 ionic $ 
 ````
 
-und Ihnen den Standardbrowsers Ihres Betriebssystems öffnen mit der ionic starter Tabs app. Jetzt können Sie die App wieder auf Ihren Relution Server veröffentlichen und diese sollte unter folgender Url 
+und den Standard-Browser des Betriebssystems öffnen. Die Ionic Start App enthält nun ein Tab Layout.
+Das Ergebnis veröffentlichen wir auf dem Relution Server unter folgender Url:
 
 ```html
 https://{YOUR_SERVER}/{YOUR_USER_ORGANIZATION}/{YOUR_APP_NAME}
 ```
-erreichbar sein.
 
-Step ist erreichbar unter:
+Schritt 2 ist erreichbar unter:
 ```bash
 git checkout -f step-2
 ```
 
 ### 3. Relution SDK installieren / initialisieren
 
-Installieren Sie nun das Relution SDK über npm mit folgenden Befehl
+Als nächstes installieren wir das Relution SDK über npm mit folgendem Befehl:
 
 ```bash 
 > relution-sample-auth/client: npm i -S https://github.com/relution-io/relution-sdk
 ```
 
-Öffnen Sie nun in Ihrem Code Editor die Datei ``` client/app/app.ts ````
+Wir öffnen nun in unserem Code Editor die Datei ``` client/app/app.ts ``` , 
 
-Die folgender maßen aussehen sollte:
+die folgendermaßen aussehen sollte:
 ```javascript
 import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
@@ -133,14 +134,13 @@ export class MyApp {
 
 ionicBootstrap(MyApp);
 ```
-
-Nun müssen wir erst einmal Relution initialisieren, hierzu mmüssen wir das SDK packtet ersteinmal importieren.
+Nun müssen wir erst einmal die Relution Klassen initialisieren, hierzu müssen wir das Relution-SDK Paket importieren.
 
 ```javascript
 import * as Relution from 'relution-sdk';
 ```
 
-Fügen Sie in Ihrem constructor der Class MyApp das Relution init hinzu.
+Fügen Sie in Ihrem Konstruktor der Klasse 'MyApp' die Methode Relution.init hinzu.
 ```javascript
 Relution.init({
   serverUrl: '{{YOUR_SERVER_URL}}',
@@ -150,8 +150,11 @@ Relution.init({
   console.log('Relution is ready');
 });
 ```
-Die Server Url ist die von Ihrem Relution Server ohn Organisation und ohne Applikation Namen. Ihren App namem finden Sie in der relution.hjson in Ihrem Root verzeichnis.
-Die app.ts sollte nun folgender masen aussehen: 
+Die Server Url entspricht dem Aufruf für den Relution Server ohne Organisation und ohne Applikationsnamen. 
+
+Den Applikationsnamen finden wir in der relution.hjson im sogenannten 'Root' Verzeichnis.
+
+Die Datei app.ts sollte nun folgendermaßen aussehen: 
 ```javascript
 import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
@@ -186,17 +189,17 @@ export class MyApp {
 
 ionicBootstrap(MyApp);
 ```
-In Ihrer Browser Console sollte ein log mit
+In der Browser Konsole sollte eine Ausgabe 
 ```Relution is ready```
-erscheinen auserdem eine Device Information wo Sie Inhalt über Ihr aktuelles Device was in dem fall der Browser ist.
+erscheinen, sowie eine Information über den genutzten Browser.
 
-Step ist erreichbar unter:
+Schritt 3 ist erreichbar unter:
 ```bash
 git checkout -f step-3
 ```
 
 ### 4. Login
-Für den Login benötigen Sie eine Component dies können Sie mit der ionic-cli generieren:
+Für den Login benötigen wir eine Komponente. Diese können wir mit der 'ionic-cli' generieren:
 ```bash
 > relution-sample-auth/client:  ionic g page login
 √ Create app/pages/login/login.html
@@ -207,7 +210,7 @@ Don't forget to add an import for login.scss in app/themes/app.core.scss:
 
   @import "../pages/login/login.scss";
 ```
-Um die LoginSeite als erstes aufrufen zu können importieren Sie die Seite in Ihre app.ts und legen Sie diese als rootPage fest:
+Um die Login-Seite aufrufen zu können, importieren wir die Seite in die Datei 'app.ts' und legen diese als 'rootPage' fest:
 ```javascript
 import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
@@ -243,8 +246,8 @@ export class MyApp {
 ionicBootstrap(MyApp);
 ```
 
-Ok öffnen Sie nun die Datei app/pages/login/login.ts
-und erstellen Sie Ihr LoginModel
+Ok, nun öffnen wir die Datei 'app/pages/login/login.ts'
+und erstellen eine Klasse mit dem Namen 'LoginModel'
 ```javascript
 import * as Relution from 'relution-sdk';
 class LoginModel implements Relution.security.Credentials {
@@ -252,7 +255,7 @@ class LoginModel implements Relution.security.Credentials {
 }
 ```
 
-und fügen Sie es Ihrer LoginPage hinzu:
+und fügen diese der LoginPage hinzu:
 
 ```javascript
 @Component({
@@ -274,7 +277,7 @@ export class LoginPage {
   }
 }
 ```
-jetzt haben wir ein LoginModel mit dem wir uns ein Formular erstellen können. Also öffnen Sie die login.html Datei und fügen Sie folgendes html dem ``` <ion-content> ``` hinzu:
+Jetzt haben wir ein LoginModel mit dem wir uns ein Formular erstellen können. Also öffnen wir die Datei 'login.html'  und fügen folgenden HTML der Datei ``` <ion-content> ``` hinzu:
 ```html
 <ion-list>
     <form>
@@ -292,7 +295,7 @@ jetzt haben wir ein LoginModel mit dem wir uns ein Formular erstellen können. A
     </form>
 </ion-list>
 ```
-Als Ergebnis sollten Sie nun ein Formular sehen das zwei Inputfelder besitzt eins für den Usernamen eins für das Passwort. Nun müssen wie die Daten noch an den Relution Server weiterleiten für dies adden Sie eine onSubmit Methode Ihrer LoginPage hinzu:
+Als Ergebnis sollten Sie nun ein Formular sehen das zwei Eingabefelder besitzt. Eines für den Benutzernamen und eines für das Passwort. Nun müssen die Daten noch an den Relution Server weitergeleitet werden. Hierfür ergänzen wir mit einer Methode 'onSubmit' die Datei 'LoginPage':
 
 ```javascript
 onSubmit() {
@@ -314,8 +317,8 @@ onSubmit() {
     });
   }
 ```
-Nun können Sie das Formular ausfüllen und an den Relution Server weiterleiten.
-und hier die komplette Loginpage:
+Nun können wir das Formular ausfüllen und an den Relution Server weiterleiten.
+Hier die volllständige Implementierung der Klasse 'Loginpage':
 ```javascript
 import {Component, Input} from '@angular/core';
 import {NavController} from 'ionic-angular';
@@ -369,20 +372,20 @@ export class LoginPage {
   }
 }
 ```
-Step ist erreichbar unter:
+Schritt 4 ist erreichbar unter:
 ```bash
 git checkout -f step-4
 ```
 
-### 5. Response verarbeiten
-Nach dem erfolgreichen Login hat man mehrere Optionen um an die User daten zu kommen.
-Es gibt User, Organization und Authorization.
+### 5. Antwort (Response) verarbeiten
+Nach dem erfolgreichen Login existieren mehrere Optionen um an die Benutzerdaten zu kommen.
+Es gibt Benutzer (User), Organisation (Organization) und Autorisierung (Authorization).
 
 ####User:
 ```javascript
 const user:Relution.security.User = Relution.security.getCurrentUser();
 ```
-und gibt Ihnen die Userinformation zurück
+gibt die Benutzernformation zurück
 ```json
 {
   "type": "USER",
@@ -432,7 +435,7 @@ und gibt Ihnen die Userinformation zurück
 ```javascript
 const orga:Relution.security.Organization = Relution.security.getCurrentOrganization();
 ```
-und stellt Ihnen folgende Informationen bereit:
+und stellt folgende Informationen bereit:
 ```json
 {
   "uuid": "DB461B98-4143-4509-B662-1417C1793F38",
@@ -478,7 +481,7 @@ und stellt Ihnen folgende Informationen bereit:
 ```javascript
 const authorization:Relution.security.Authorization = Relution.security.getCurrentAuthorization();
 ```
-und stellt Ihnen folgende Daten zu verfügung:
+und stellt folgende Daten zu Verfügung:
 ```json
 {
   "name": "5AB2ED9F-CEB1-42B2-8688-03E144F89608",
@@ -490,20 +493,22 @@ und stellt Ihnen folgende Daten zu verfügung:
   ]
 }
 ```
-Step ist erreichbar unter:
+Schritt 5 ist erreichbar unter:
 ```bash
 git checkout -f step-5
 ```
 ###6. Logout
 
-Um den User wieder auszuloggen ist folgende Methode verfügbar der Rückgabewert dieser Methode ist ein Promise
+Um den Benutzer wieder abzumelden ist folgende Methode verfügbar:
 ```javascript
 Relution.web.logout()
 .then(() => {
 	console.log('iam logged out');
 });
 ```
-ein Beispiel in der User Seite:
+Hinweis: der Rückgabewert dieser Methode ist ein Promise
+
+Hier ein Beispiel in der Benutzerseite:
 ```javascript
 import {Component} from '@angular/core';
 import {NavController, Loading, Alert} from 'ionic-angular';
