@@ -59,29 +59,8 @@ Die Ausgabe sollte wie folgt aussehen:
 [14:26:23] Finished 'clean' after 10 ms
 [14:26:23] Starting 'watch'...
 [14:26:23] Starting 'sass'...
-[14:26:23] Starting 'html'...
-[14:26:23] Starting 'fonts'...
-[14:26:23] Starting 'scripts'...
-[14:26:24] Finished 'html' after 191 ms
-[14:26:24] Finished 'scripts' after 192 ms
-[14:26:24] Finished 'fonts' after 201 ms
-[14:26:25] Finished 'sass' after 1.38 s
-8.3 MB bytes written (5.79 seconds)
-[14:26:34] Finished 'watch' after 11 s
-[14:26:34] Starting 'serve:before'...
-[14:26:34] Finished 'serve:before' after 14 μs
 
-Running live reload server: http://localhost:35729
-Watching: www/**/*, !www/lib/**/*
 √ Running dev server:  http://localhost:8100
-Ionic server commands, enter:
-  restart or r to restart the client app from the root
-  goto or g and a url to have the app navigate to the given url
-  consolelogs or c to enable/disable console log output
-  serverlogs or s to enable/disable server log output
-  quit or q to shutdown the server and exit
-
-ionic $ 
 ````
 
 und den Standard-Browser des Betriebssystems öffnen. Die Ionic Start App enthält nun ein Tab Layout.
@@ -104,7 +83,7 @@ Als nächstes installieren wir das Relution SDK über npm mit folgendem Befehl:
 > relution-sample-auth/client: npm i -S https://github.com/relution-io/relution-sdk
 ```
 
-Wir öffnen nun in unserem Code Editor die Datei ``` client/app/app.ts ``` , 
+Wir öffnen nun in unserem Code Editor die Datei ``` client/app/app.ts ``` ,
 
 die folgendermaßen aussehen sollte:
 ```javascript
@@ -159,20 +138,22 @@ Die Datei app.ts sollte nun folgendermaßen aussehen:
 import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
-import {TabsPage} from './pages/tabs/tabs';
+import {LoginPage} from './pages/login/login';
 import * as Relution from 'relution-sdk';
 
 @Component({
-  template: '<ion-nav [root]="rootPage"></ion-nav>'
+  template: '<ion-nav [root]="rootPage" relutiongray></ion-nav>'
 })
 export class MyApp {
 
   private rootPage: any;
 
   constructor(private platform: Platform) {
-    this.rootPage = TabsPage;
+    this.rootPage = LoginPage;
+
+    // initialized the Relution SDK
     Relution.init({
-      serverUrl: 'http://pbrewing.mwaysolutions.com:8080',
+      serverUrl: 'https://pbrewing.mwaysolutions.com',
       application: 'sampleAuth'
     })
     .then((info) => {
@@ -188,6 +169,7 @@ export class MyApp {
 }
 
 ionicBootstrap(MyApp);
+
 ```
 In der Browser Konsole sollte eine Ausgabe 
 ```Relution is ready```
@@ -246,48 +228,29 @@ export class MyApp {
 ionicBootstrap(MyApp);
 ```
 
-Ok, nun öffnen wir die Datei 'app/pages/login/login.ts'
-und erstellen eine Klasse mit dem Namen 'LoginModel'
+Ok, nun öffnen wir die Datei 'app/pages/login/login.ts' fügen der Klasse das credentials Objekt hinzu
+
 ```javascript
 import * as Relution from 'relution-sdk';
-class LoginModel implements Relution.security.Credentials {
-  constructor(public userName = '', public password = '') { }
-}
+export class LoginPage {
+	public credentials = {userName: '', password: ''}
+	constructor(private nav: NavController) {}
+    ...
 ```
 
 und fügen diese der LoginPage hinzu:
 
-```javascript
-@Component({
-  templateUrl: 'build/pages/login/login.html',
-})
-export class LoginPage {
-  private _model: LoginModel;
-
-  constructor(private nav: NavController) {
-    this._model = new LoginModel();
-  }
-
-  public get model(): LoginModel {
-    return this._model;
-  }
-
-  public set model(v: LoginModel) {
-    this._model = v;
-  }
-}
-```
-Jetzt haben wir ein LoginModel mit dem wir uns ein Formular erstellen können. Also öffnen wir die Datei 'login.html'  und fügen folgenden HTML der Datei ``` <ion-content> ``` hinzu:
+Jetzt haben wir die credetials mit dem wir uns ein Formular erstellen können. Also öffnen wir die Datei 'login.html'  und fügen folgendes HTML der Datei im ``` <ion-content> ``` hinzu:
 ```html
 <ion-list>
     <form>
       <ion-item>
         <ion-label fixed>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="model.userName" required></ion-input>
+        <ion-input type="text" [(ngModel)]="credentials.userName" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label fixed>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="model.password" required></ion-input>
+        <ion-input type="password" [(ngModel)]="credentials.password" required></ion-input>
       </ion-item>
       <button type="submit" fab fab-right on-click="onSubmit()">
         <ion-icon ios="ios-checkmark-circle-outline" md="md-checkmark-circle-outline"></ion-icon>
@@ -302,8 +265,8 @@ onSubmit() {
     console.log(this.model);
     Relution.web.login(
       {
-        userName: this.model.userName,
-        password: this.model.password
+        userName: this.credentials.userName,
+        password: this.credentials.password
       },
       {
         offlineCapable: true
@@ -321,56 +284,50 @@ Nun können wir das Formular ausfüllen und an den Relution Server weiterleiten.
 Hier die volllständige Implementierung der Klasse 'Loginpage':
 ```javascript
 import {Component, Input} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, Loading, Alert} from 'ionic-angular';
 import { NgForm }    from '@angular/common';
+import {TabsPage} from './../tabs/tabs';
 import * as Relution from 'relution-sdk';
 
-class LoginModel implements Relution.security.Credentials {
-  constructor(public userName = '', public password = '') { }
-}
-
-/*
-  Generated class for the LoginPage page.
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
-  templateUrl: 'build/pages/login/login.html',
+  templateUrl: 'build/pages/login/login.html'
 })
 export class LoginPage {
-  private _model: LoginModel;
-
-  constructor(private nav: NavController) {
-    this.model = new LoginModel();
-  }
-
-  public get model(): LoginModel {
-    return this._model;
-  }
-
-  public set model(v: LoginModel) {
-    this._model = v;
-  }
+  public credentials = {userName: '', password: ''};
+  constructor(private nav: NavController) {}
 
   onSubmit() {
-    console.log(this.model);
-    Relution.web.login(
+    const loading = Loading.create({
+      content: 'Please wait ...'
+    });
+    this.nav.present(loading);
+    return Relution.web.login(
       {
-        userName: this.model.userName,
-        password: this.model.password
+        userName: this.credentials.userName,
+        password: this.credentials.password
       },
       {
         offlineCapable: true
       }
     )
     .then((resp) => {
-      console.log(resp);
+      this.nav.rootNav.setRoot(TabsPage).then(() => {
+        loading.dismiss();
+      });
     })
-    .catch((e) => {
-      console.error(e);
+    .catch((e: Relution.web.HttpError) => {
+      loading.dismiss();
+      let alert = Alert.create({
+        title: `${e.name} ${e.statusCode}`,
+        subTitle: e.message,
+        buttons: ['OK']
+      });
+      this.nav.present(alert);
     });
   }
 }
+
+
 ```
 Schritt 4 ist erreichbar unter:
 ```bash
@@ -379,13 +336,13 @@ git checkout -f step-4
 
 ### 5. Antwort (Response) verarbeiten
 Nach dem erfolgreichen Login existieren mehrere Optionen um an die Benutzerdaten zu kommen.
-Es gibt Benutzer (User), Organisation (Organization) und Autorisierung (Authorization).
+Es gibt Benutzer (User), Organisation (Organization) und Autorisierung (Authorization) Informationen.
 
 ####User:
 ```javascript
 const user:Relution.security.User = Relution.security.getCurrentUser();
 ```
-gibt die Benutzernformation zurück
+gibt die Benutzernformation zurück.
 ```json
 {
   "type": "USER",
@@ -430,6 +387,7 @@ gibt die Benutzernformation zurück
   ]
 }
 ```
+mehr dazu [hier](https://relution-io.github.io/relution-sdk/interfaces/_security_roles_.user.html).
 
 ####Organization:
 ```javascript
@@ -475,6 +433,7 @@ und stellt folgende Informationen bereit:
   ]
 }
 ```
+mehr dazu [hier](https://relution-io.github.io/relution-sdk/interfaces/_security_roles_.organization.html).
 
 ####Authorization:
 
@@ -493,10 +452,69 @@ und stellt folgende Daten zu Verfügung:
   ]
 }
 ```
+mehr dazu [hier](https://relution-io.github.io/relution-sdk/interfaces/_security_auth_.authorization.html).
+
+#### Componenten
+Unter `app/pages` sind die Componenten hinterlegt:
+
+```javascript
+// app/pages/user.ts
+import {Component} from '@angular/core';
+import {NavController, Loading, Alert} from 'ionic-angular';
+import * as Relution from 'relution-sdk';
+import {LoginPage} from './../login/login';
+
+@Component({
+  templateUrl: 'build/pages/user/user.html'
+})
+export class UserPage {
+  public user: Relution.security.User;
+
+  constructor(private navCtrl: NavController ) {
+    this.user = Relution.security.getCurrentUser();
+    console.log(JSON.stringify(this.user, null, 2));
+  }
+}
+
+// app/pages/organization.ts
+import {Component} from '@angular/core';
+import {NavController} from 'ionic-angular';
+import * as Relution from 'relution-sdk';
+
+@Component({
+  templateUrl: 'build/pages/organization/organization.html'
+})
+export class OrganizationPage {
+  public organization: Relution.security.Organization;
+  constructor(private navCtrl: NavController) {
+    this.organization = Relution.security.getCurrentOrganization();
+    console.log(JSON.stringify(this.organization, null, 2));
+  }
+}
+
+// app/pages/authorization.ts
+import {Component} from '@angular/core';
+import {CORE_DIRECTIVES} from '@angular/common';
+import {NavController} from 'ionic-angular';
+import * as Relution from 'relution-sdk';
+
+@Component({
+  templateUrl: 'build/pages/authorization/authorization.html'
+})
+export class AuthorizationPage {
+  public authorization: Relution.security.Authorization;
+  constructor(private navCtrl: NavController) {
+    this.authorization = Relution.security.getCurrentAuthorization();
+    console.log(JSON.stringify(this.authorization, null, 2));
+  }
+}
+
+```
 Schritt 5 ist erreichbar unter:
 ```bash
 git checkout -f step-5
 ```
+
 ###6. Logout
 
 Um den Benutzer wieder abzumelden ist folgende Methode verfügbar:
@@ -530,13 +548,16 @@ export class UserPage {
       content: 'Please wait ...'
     });
     this.navCtrl.present(loading);
+    // logged the user out
     Relution.web.logout()
     .then(() => {
+    	// go back to the loginpage
       this.navCtrl.setRoot(LoginPage).then(() => {
         loading.dismiss();
       });
     })
     .catch((e: Relution.web.HttpError) => {
+      // not logged out
       loading.dismiss();
       let alert = Alert.create({
         title: `${e.name} ${e.statusCode}`,

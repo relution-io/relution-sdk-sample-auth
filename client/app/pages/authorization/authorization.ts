@@ -7,7 +7,8 @@ import * as Relution from 'relution-sdk';
   templateUrl: 'build/pages/authorization/authorization.html'
 })
 export class AuthorizationPage {
-  public authorization: Relution.security.Authorization;
+  public authorization: Relution.security.Authorization; // https://relution-io.github.io/relution-sdk/interfaces/_security_auth_.authorization.html
+
   constructor(private navCtrl: NavController) {
     this.authorization = Relution.security.getCurrentAuthorization();
     console.log(JSON.stringify(this.authorization, null, 2));

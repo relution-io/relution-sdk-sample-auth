@@ -7,7 +7,7 @@ import {LoginPage} from './../login/login';
   templateUrl: 'build/pages/user/user.html'
 })
 export class UserPage {
-  public user: Relution.security.User;
+  public user: Relution.security.User; // https://relution-io.github.io/relution-sdk/interfaces/_security_roles_.user.html
 
   constructor(private navCtrl: NavController ) {
     this.user = Relution.security.getCurrentUser();
@@ -18,8 +18,10 @@ export class UserPage {
       content: 'Please wait ...'
     });
     this.navCtrl.present(loading);
+    // logged out on relution server
     Relution.web.logout()
     .then(() => {
+      // after logout back to the LoginPage
       this.navCtrl.setRoot(LoginPage).then(() => {
         loading.dismiss();
       });

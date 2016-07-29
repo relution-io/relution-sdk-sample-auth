@@ -3,7 +3,6 @@ import {Platform, ionicBootstrap} from 'ionic-angular';
 import {StatusBar} from 'ionic-native';
 import {LoginPage} from './pages/login/login';
 import * as Relution from 'relution-sdk';
-import * as Q from 'q';
 
 @Component({
   template: '<ion-nav [root]="rootPage" relutiongray></ion-nav>'
@@ -14,6 +13,8 @@ export class MyApp {
 
   constructor(private platform: Platform) {
     this.rootPage = LoginPage;
+
+    // initialized the Relution SDK
     Relution.init({
       serverUrl: 'https://pbrewing.mwaysolutions.com',
       application: 'sampleAuth'

@@ -8,11 +8,11 @@
     <form>
       <ion-item>
         <ion-label fixed>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="model.userName" required></ion-input>
+        <ion-input type="text" [(ngModel)]="credentials.userName" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label fixed>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="model.password" required></ion-input>
+        <ion-input type="password" [(ngModel)]="credentials.password" required></ion-input>
       </ion-item>
       <button type="submit" fab fab-right on-click="onSubmit()" relutiongreen>
         <ion-icon name="log-in" dark></ion-icon>
