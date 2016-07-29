@@ -64,7 +64,7 @@ Step 2 is available
 git checkout -f step-2
 ```
 
-###3. Installation Relution-SDK and initilaized it
+###3. Installation Relution-SDK and initialization
 
 Please install the relution-sdk over npm with the following command
 ```bash
