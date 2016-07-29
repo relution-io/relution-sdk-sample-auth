@@ -157,7 +157,7 @@ export class MyApp {
 ionicBootstrap(MyApp);
 
 ```
-and if the init is successfully you console print out 'Relution is ready'.
+and if the init is successfully the Browser console print out 'Relution is ready'.
 
 Step 3 is available
 ```bash
@@ -178,7 +178,7 @@ Don't forget to add an import for login.scss in app/themes/app.core.scss:
 
   @import "../pages/login/login.scss";
 ```
-Now we have to change the start entry Point of our app in the 'client/app/app.ts', we have to change the 'rootPage':
+Now we have to change the start entry Point of our app in the 'client/app/app.ts', change the 'rootPage':
 
 ```javascript
 import {LoginPage} from './pages/login/login';
@@ -206,8 +206,7 @@ export class LoginPage {
 	constructor(private nav: NavController) {}
     ...
 ```
-and add the following html into '<ion-content>' on the file 
-'app/pages/login/login.html'
+and add the following html into '<ion-content>' on the file 'app/pages/login/login.html'
 
 ```html
 <ion-list>
@@ -227,7 +226,7 @@ and add the following html into '<ion-content>' on the file
 </ion-list>
 ```
 
-the result will show the LoginPage with the credentials form. Ok now we can login the user on the Relution server for this we wil need a new method i called it 'onSubmit':
+the result will show the LoginPage with the credentials form. Ok now we can login the user on the Relution server for this we will need a new method i called it 'onSubmit':
 
 ```javascript
 onSubmit() {
@@ -428,7 +427,7 @@ return something like this:
 #### Components (Pages)
 Check the Components from 'client/app/pages' folder:
 ```javascript
-// app/pages/user.ts
+// app/pages/user/user.ts
 import {Component} from '@angular/core';
 import {NavController, Loading, Alert} from 'ionic-angular';
 import * as Relution from 'relution-sdk';
@@ -446,7 +445,7 @@ export class UserPage {
   }
 }
 
-// app/pages/organization.ts
+// app/pages/organization/organization.ts
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import * as Relution from 'relution-sdk';
@@ -462,7 +461,7 @@ export class OrganizationPage {
   }
 }
 
-// app/pages/authorization.ts
+// app/pages/authorization/authorization.ts
 import {Component} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {NavController} from 'ionic-angular';
@@ -486,7 +485,7 @@ git checkout -f step-5
 ```
 
 ###6. Logout
-To logout the User is the following method to use:
+To logout the User is the following method available:
 
 ```javascript
 Relution.web.logout()
@@ -494,7 +493,6 @@ Relution.web.logout()
 	console.log('iam logged out');
 });
 ```
-> returns a promise
 
 example from 'client/app/pages/user/user.ts'
 
