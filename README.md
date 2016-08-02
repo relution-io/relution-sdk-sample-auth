@@ -1,5 +1,5 @@
 #Relution Login Sample
-The following dependencies are needed
+The following dependencies are needed:
 - [node >= 4.4](https://nodejs.org/en/)
 - [typescript](http://www.typescriptlang.org/)
 - [ionic-cli](http://ionicframework.com/docs/v2/getting-started/installation/)
@@ -226,7 +226,7 @@ and add the following html into ```'<ion-content>'``` on the file 'app/pages/log
 </ion-list>
 ```
 
-the result will show the LoginPage with the credentials form. Ok now we can login the user on the Relution server for this we will need a new method i called it 'onSubmit':
+The result will show the LoginPage with the credentials form. Ok now we can login the user on the Relution server for this we will need a new method i called it 'onSubmit':
 
 ```javascript
 onSubmit() {
@@ -249,7 +249,7 @@ onSubmit() {
   }
 ```
 
-now when you clicked on the login button you are still logged in.
+Now when you clicked on the login button you are still logged in.
 Full code example from the LoginPage:
 
 ```javascript
@@ -312,7 +312,7 @@ After the successfully Login we have some Options to get the Information. Availa
 ```javascript
 const user:Relution.security.User = Relution.security.getCurrentUser();
 ```
-return the following json:
+returns the following json:
 ```json
 {
   "type": "USER",
@@ -357,7 +357,7 @@ return the following json:
   ]
 }
 ```
-[read more](https://relution-io.github.io/relution-sdk/interfaces/_security_roles_.user.html).
+If want read more about security & roles you find it[here](https://relution-io.github.io/relution-sdk/interfaces/_security_roles_.user.html).
 
 ####Organization:
 ```javascript
