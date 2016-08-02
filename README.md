@@ -1,5 +1,5 @@
 #Relution Login Sample
-The following dependecies are needed
+The following dependencies are needed
 - [node >= 4.4](https://nodejs.org/en/)
 - [typescript](http://www.typescriptlang.org/)
 - [ionic-cli](http://ionicframework.com/docs/v2/getting-started/installation/)
@@ -7,16 +7,16 @@ The following dependecies are needed
 
 ###1. Create a new Project
 
-Create an empty folder on the Terminal:
+Create an empty folder on your console:
 ```bash
 >: mkdir relution-sample-auth
 ```
 
-now change into your folder and create a empty Project follow this instruction [Guide]().
+now change to your folder and create a empty project following this instruction [Guide]().
 
-> Notice you have to deploy your project into the Relution Server.
+> Notice you have to deploy your project into the Relution server.
 
-Step 1 is available
+Checkout Step 1:
 ```bash
 git checkout -f step-1
 ```
@@ -57,21 +57,21 @@ the ouput looks something like this :
 
 √ Running dev server:  http://localhost:8100
 ````
-and your default browser is open with the 'http://localhost:8100' and you can see your app.
+open your default browser with http://localhost:8100' and you can see your app.
 
-Step 2 is available
+Checkout Step 2:
 ```bash
 git checkout -f step-2
 ```
 
-###3. Installation Relution-SDK and initialization
+###3. Getting your Relution-SDK
 
-Please install the relution-sdk over npm with the following command
+Please install the Relution-SDK over npm with the following command
 ```bash
 > relution-sample-auth/client: npm i -S https://github.com/relution-io/relution-sdk
 ```
 
-Now open your ``` client/app/app.ts ``` , it looks like this:
+Now open the file ``` client/app/app.ts ```, it looks like this:
 
 ```javascript
 import {Component} from '@angular/core';
@@ -115,11 +115,11 @@ Relution.init({
   console.log('Relution is ready');
 });
 ```
-You have only to add the host from your Relution Server on the serverUrl and the application name.
+You have only to add the host from your Relution server on the server URL and the application name.
 
 > If you don`t no where you get the application name this information is available in the 'relution.hjson' from your root folder
 
-Ok your 'app.ts' looks like this at the end:
+At the end, your 'app.ts' looks like this:
 ```javascript
 import {Component} from '@angular/core';
 import {Platform, ionicBootstrap} from 'ionic-angular';
@@ -157,16 +157,16 @@ export class MyApp {
 ionicBootstrap(MyApp);
 
 ```
-and if the init is successfully the Browser console print out 'Relution is ready'.
+and if the init is successfully the browser console print out 'Relution is ready'.
 
-Step 3 is available
+Step 3 is available:
 ```bash
 git checkout -f step-3
 ```
 
 ### 4. Login
 
-So we need a Component for the Login, we can generate it with the 'ionic-cli':
+We need an component for the login, we can generate it with the 'ionic-cli':
 
 ```bash
 > relution-sample-auth/client:  ionic g page login
@@ -178,7 +178,7 @@ Don't forget to add an import for login.scss in app/themes/app.core.scss:
 
   @import "../pages/login/login.scss";
 ```
-Now we have to change the start entry Point of our app in the 'client/app/app.ts', change the 'rootPage':
+Now we have to change the start entry point of our app in the 'client/app/app.ts', change the 'rootPage':
 
 ```javascript
 import {LoginPage} from './pages/login/login';
@@ -197,7 +197,7 @@ export class MyApp {
 
 ionicBootstrap(MyApp);
 ```
-Ok let us check our LoginPage open 'app/pages/login/login.ts' in your Ide and add the credentials Object:
+Next, let us check our LoginPage open 'app/pages/login/login.ts' in your IDE and add the credentials object:
 
 ```javascript
 import * as Relution from 'relution-sdk';
@@ -206,7 +206,7 @@ export class LoginPage {
 	constructor(private nav: NavController) {}
     ...
 ```
-and add the following html into '<ion-content>' on the file 'app/pages/login/login.html'
+and add the following html into ```'<ion-content>'``` on the file 'app/pages/login/login.html'
 
 ```html
 <ion-list>
@@ -299,7 +299,7 @@ export class LoginPage {
 
 ```
 
-Step 4 is available
+Checkout Step 4:
 ```bash
 git checkout -f step-4
 ```
@@ -425,7 +425,7 @@ return something like this:
 [read more](https://relution-io.github.io/relution-sdk/interfaces/_security_auth_.authorization.html).
 
 #### Components (Pages)
-Check the Components from 'client/app/pages' folder:
+Check the components from 'client/app/pages' folder:
 ```javascript
 // app/pages/user/user.ts
 import {Component} from '@angular/core';
@@ -479,13 +479,13 @@ export class AuthorizationPage {
 }
 
 ```
-Step 5 is available:
+Checkout Step 5:
 ```bash
 git checkout -f step-5
 ```
 
 ###6. Logout
-To logout the User is the following method available:
+To logout the user following method is available:
 
 ```javascript
 Relution.web.logout()
@@ -538,7 +538,7 @@ export class UserPage {
   }
 }
 ```
-for usage i add a button on the 'client/app/pages/user/user.html' file:
+for usage add a button on file 'client/app/pages/user/user.html':
 
 ```html
 <ion-header>
@@ -553,5 +553,5 @@ for usage i add a button on the 'client/app/pages/user/user.html' file:
 </ion-header>
 ```
 
-if the logout successfully the code move the nav state to the LoginPage on error it will shown you an Alert with the error stack.
+If the logout is successfully the code move the nav state to the method 'LoginPage'. On error it will shown you an alert message with the error stack.
 
