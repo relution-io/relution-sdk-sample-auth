@@ -7,7 +7,7 @@ The following dependencies are needed:
 
 ###1. Create a new Project
 
-Create an empty folder on your console:
+Create an empty folder on your terminal:
 ```bash
 >: mkdir relution-sample-auth
 ```
